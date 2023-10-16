@@ -13,7 +13,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public double numero1, numero2, resultado;
-    public String operacion, signo;
+    public String signo;
 
     public TextView numeroActual;
     private FasesCalculo faseActual;
@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         numero1=0;
         numero2=0;
         resultado=0;
-        operacion="";
         signo = "";
 
         numeroActual = findViewById(R.id.txtNumeros);
@@ -37,13 +36,15 @@ public class MainActivity extends AppCompatActivity {
         botonesNumeros = Arrays.asList(findViewById(R.id.btn0), findViewById(R.id.btn1), findViewById(R.id.btn2), findViewById(R.id.btn3), findViewById(R.id.btn4), findViewById(R.id.btn5), findViewById(R.id.btn6), findViewById(R.id.btn7), findViewById(R.id.btn8), findViewById(R.id.btn9));
 
     }
-    private void resetVariables(View view) {
+    public void resetVariables(View view) {
 
         numero1=0;
         numero2=0;
         resultado=0;
-        operacion="";
-        numeroActual.setText("0");
+        signo = "";
+        numeroActual.setText("");
+        faseActual = FasesCalculo.DESDE0;
+        deshabilitarBotones(false);
 
     }
 
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(view.getId()==R.id.btnIgual && faseActual==FasesCalculo.SEGUNDONUMERO) {
 
-            numero1 = numero1+numero2;
+            numero1 = operacionSigno(signo, numero1, numero2);
             double parteDecimal = numero1 % 1;
             if(parteDecimal==0) numeroActual.setText(String.format("%.0f", numero1));
             else numeroActual.setText(numero1+"");
@@ -129,15 +130,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private double operacionSigno(String signo, double numero1, double numero2) {
+
+        double resultado = 0;
+
+        switch (signo) {
+
+            case "+": resultado = numero1 + numero2;
+                break;
+
+            case "-": resultado = numero1 - numero2;
+                break;
+
+            case "X": resultado = numero1 * numero2;
+                break;
+
+            case "/": resultado = numero1 / numero2;
+                break;
+
+            case "%": resultado = numero1 % numero2;
+                break;
+
+        }
+
+        return resultado;
+
+    }
+
     public void borrarNumero(View view) {
 
-        if(view.getId()==R.id.btnBorrar && numeroActual.getText()!="0") {
+        if(view.getId()==R.id.btnBorrar && numeroActual.getText().length()!=0) {
             String borradoNumero = (String) numeroActual.getText();
             borradoNumero = borradoNumero.substring(0, borradoNumero.length()-1);
             numeroActual.setText(borradoNumero);
-        }
+            if(faseActual==FasesCalculo.DESDE0) {
+//coNTINUAR PORE AQUI
+                numero1= Double.parseDouble(String.valueOf(numeroActual));
 
-        else numeroActual.setText("0");
+            }
+        }
 
     }
 

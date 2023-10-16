@@ -72,6 +72,7 @@
                 android:layout_weight="1"
                 android:height="75dp"
                 android:backgroundTint="#000000"
+                android:onClick="resetVariables"
                 android:text="C"
                 android:textColor="#FF9800"
                 android:textSize="28sp"
