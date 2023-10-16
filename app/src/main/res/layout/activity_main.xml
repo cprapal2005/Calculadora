@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:backgroundTint="#000000"
+    android:onClick="iniciarCalculo"
     tools:context=".MainActivity">
 
     <TextView
@@ -324,6 +325,7 @@
                 android:layout_weight="1"
                 android:height="75dp"
                 android:backgroundTint="#000000"
+                android:onClick="iniciarCalculo"
                 android:text="."
                 android:textSize="28sp"
                 android:typeface="normal" />
