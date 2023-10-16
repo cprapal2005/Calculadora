@@ -47,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void deshabilitarBotones() {
+    private void deshabilitarBotones(boolean flag) {
 
         for (int i = 0; i < this.botonesSignos.size(); i++) {
 
-            this.botonesSignos.get(i).setEnabled(false);
+            if(flag == true) this.botonesSignos.get(i).setEnabled(false);
+
+            else this.botonesSignos.get(i).setEnabled(true);
 
         }
 
@@ -89,30 +91,25 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textoBoton = (TextView) view;
 
-        if(esNumero(view)==true && numeroActual.getText()!="0" && faseActual==FasesCalculo.DESDE0) {
+        if(esNumero(view)==true && faseActual==FasesCalculo.DESDE0) {
             numeroActual.setText(numeroActual.getText() + "" + textoBoton.getText());
-            numero1 = Double.parseDouble((String) numeroActual.getText());
-        }
-
-        else if(esNumero(view)==true && numeroActual.getText()=="0" && faseActual==FasesCalculo.DESDE0) {
-            numeroActual.setText(textoBoton.getText());
             numero1 = Double.parseDouble((String) numeroActual.getText());
         }
 
         if(esSigno(view)==true && numeroActual.getText()!="0") {
 
-            deshabilitarBotones();
+            deshabilitarBotones(true);
             signo = (String) textoBoton.getText();
             faseActual = FasesCalculo.SEGUNDONUMERO;
 
         }
 
-        if(esNumero(view)==true && numeroActual.getText()!="0" && faseActual==FasesCalculo.SEGUNDONUMERO) {
+        if(esNumero(view)==true && numero2!=0 && faseActual==FasesCalculo.SEGUNDONUMERO) {
             numeroActual.setText(numeroActual.getText() + "" + textoBoton.getText());
             numero2 = Double.parseDouble((String) numeroActual.getText());
         }
 
-        else if(esNumero(view)==true && numeroActual.getText()=="0" && faseActual==FasesCalculo.SEGUNDONUMERO) {
+        else if(esNumero(view)==true && numero2==0 && faseActual==FasesCalculo.SEGUNDONUMERO) {
             numeroActual.setText(textoBoton.getText());
             numero2 = Double.parseDouble((String) numeroActual.getText());
         }
@@ -120,8 +117,12 @@ public class MainActivity extends AppCompatActivity {
         if(view.getId()==R.id.btnIgual && faseActual==FasesCalculo.SEGUNDONUMERO) {
 
             numero1 = numero1+numero2;
+            double parteDecimal = numero1 % 1;
+            if(parteDecimal==0) numeroActual.setText(String.format("%.0f", numero1));
+            else numeroActual.setText(numero1+"");
+            numero2 = 0;
             faseActual = FasesCalculo.DESDE0;
-            numeroActual.setText(numero1+"");
+            deshabilitarBotones(false);
 
         }
 
