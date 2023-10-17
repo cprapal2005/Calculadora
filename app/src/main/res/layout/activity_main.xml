@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:backgroundTint="#000000"
-    android:onClick="iniciarCalculo"
     tools:context=".MainActivity">
 
     <TextView
@@ -14,6 +13,10 @@
         android:layout_width="350dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/txtNumeros"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

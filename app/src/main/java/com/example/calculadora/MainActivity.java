@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     public double numero1, numero2, resultado;
     public String signo;
 
+    public TextView txtOperacion;
     public TextView numeroActual;
     private FasesCalculo faseActual;
     private List<Button> botonesSignos;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         numero2=0;
         resultado=0;
         signo = "";
-
+        txtOperacion = findViewById(R.id.txtOperacion);
         numeroActual = findViewById(R.id.txtNumeros);
         botonPunto = findViewById(R.id.btnPunto);
         faseActual = FasesCalculo.DESDE0;
@@ -46,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
         signo = "";
         numeroActual.setText("");
         faseActual = FasesCalculo.DESDE0;
+        botonPunto.setEnabled(true);
         deshabilitarBotones(false);
+        txtOperacion.setText("");
 
     }
 
@@ -139,7 +142,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(view.getId()==R.id.btnIgual && faseActual==FasesCalculo.SEGUNDONUMERO) {
 
+            if(Double.parseDouble((String) numeroActual.getText())==numero1 && numero2==0) numero2 = numero1;
+            txtOperacion.setText(String.format("%.0f", numero1) + " " + signo + " " + String.format("%.0f", numero2));
             numero1 = operacionSigno(signo, numero1, numero2);
+            if(Double.isInfinite(numero1) || Double.isNaN(numero1)) numero1=0;
             double parteDecimal = numero1 % 1;
             if(numero1==0) numeroActual.setText("");
             else if(parteDecimal==0) numeroActual.setText(String.format("%.0f", numero1));
